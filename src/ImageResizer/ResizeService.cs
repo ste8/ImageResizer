@@ -1,4 +1,6 @@
-﻿namespace ImageResizer
+﻿using SixLabors.ImageSharp;
+
+namespace ImageResizer
 {
     public class ResizeService
     {
@@ -30,8 +32,17 @@
 
         private void ResizeImage(string sourceImagePath, ResizeOptions options)
         {
-            
-            var image = Image.
+            using var image = Image.Load(sourceImagePath);
+            if (IsImageSmallerThanRequiredSize(image, options))
+            {
+                _outputWriter.WriteLine("");
+                return;
+            }
+        }
+
+        private bool IsImageSmallerThanRequiredSize(Image image, ResizeOptions options)
+        {
+            throw new NotImplementedException();
         }
     }
 }
