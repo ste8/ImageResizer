@@ -94,7 +94,7 @@ namespace ImageResizer.Services
 
         private void WriteOutputForImage(string? text)
         {
-            _outputWriter.WriteLine(text ?? "Message not defined");
+            _outputWriter.WriteLine("=> " + (text ?? "Message not defined"));
         }
 
         private static bool IsImageSmallerThanRequiredSize(Image image, ResizeOptions options)

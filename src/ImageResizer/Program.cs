@@ -19,15 +19,23 @@ namespace ImageResizer
                             return;
                         }
 
+                        Console.WriteLine("------------------------------------------");
                         Console.WriteLine($"Source: '{options.SourceDirPath}'");
                         Console.WriteLine($"Dest: '{options.DestDirPath}'");
                         Console.WriteLine($"Largest size: '{options.LargestSize}'");
                         Console.WriteLine($"Required Square: '{options.RequiredSquare}'");
+                        Console.WriteLine("------------------------------------------");
+                        Console.WriteLine("");
 
+                        Console.WriteLine(LocStrings.ResizingImages);
+                        Console.WriteLine("");
+                        var resizeService = new ResizeService(outputWriter);
+                        resizeService.ResizeAll(options);
 
+                        Console.WriteLine("");
+                        Console.WriteLine(LocStrings.Done);
+                        Console.ReadLine();
                     });
-
-                Console.ReadLine();
             }
             catch (Exception ex)
             {
