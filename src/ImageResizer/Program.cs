@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using ImageResizer.Localization;
 using ImageResizer.Services;
+using Version = ImageResizer.Services.Version;
 
 namespace ImageResizer
 {
@@ -20,7 +21,7 @@ namespace ImageResizer
                         }
 
                         Console.WriteLine("**********************************");
-                        Console.WriteLine("*** Image Resizer v. 1.0.0");
+                        Console.WriteLine($"*** Image Resizer v.{Version.GetAssemblyVersion()}");
                         Console.WriteLine("**********************************");
 
                         Console.WriteLine("");
