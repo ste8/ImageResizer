@@ -1,4 +1,5 @@
 ﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace ImageResizer
 {
@@ -30,19 +31,61 @@ namespace ImageResizer
             return files;
         }
 
-        private void ResizeImage(string sourceImagePath, ResizeOptions options)
+        private void ResizeImage(string sourceImageFilePath, ResizeOptions options)
         {
-            using var image = Image.Load(sourceImagePath);
-            if (IsImageSmallerThanRequiredSize(image, options))
-            {
-                _outputWriter.WriteLine("");
+            var imageFileName = Path.GetFileName(sourceImageFilePath);
+            using var image = Image.Load(sourceImageFilePath);
+            if (IsImageSmallerThanRequiredSize(image, options)) {
+                WriteOutputForImage($"Image '{imageFileName}' is already smaller than {options.LargestSize} pixel.");
                 return;
             }
+            if (options.RequiredSquare) {
+                if (IsImageSquare(image)) {
+                    WriteOutputForImage($"Image '{imageFileName}' is not square. Size: ({image.Width}x{image.Height}).");
+                    return;
+                }
+            }
+            
+            var aspectRatio = image.Width / image.Height;
+            int newWidth;
+            int newHeight;
+            if (image.Width > image.Height) {
+                newWidth = options.LargestSize;
+                newHeight = newWidth / aspectRatio;
+            } else {
+                newHeight = options.LargestSize;
+                newWidth = newHeight * aspectRatio;
+            }
+
+            image.Mutate(x =>
+                x.Resize(new SixLabors.ImageSharp.Processing.ResizeOptions() {
+                        Mode = ResizeMode.Manual,
+                        Size = new Size(newWidth, newHeight)
+                    }
+                )
+            );
+            var destImageFilePath = Path.Combine(options.DestDirPath, imageFileName);
+            image.Save(destImageFilePath);
+        }
+
+        private void WriteOutputForImage(string text)
+        {
+            _outputWriter.WriteLine(text);
         }
 
         private bool IsImageSmallerThanRequiredSize(Image image, ResizeOptions options)
         {
-            throw new NotImplementedException();
+            bool result = image.Width < options.LargestSize
+                          && image.Height < options.LargestSize;
+            return result;
         }
+
+        private bool IsImageSquare(Image image)
+        {
+            bool result = image.Width == image.Height;
+            return result;
+        }
+
+
     }
 }
