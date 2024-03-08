@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ImageResizer": {
+      "commandName": "Project",
+      "commandLineArgs": "--source \"Originali\" --dest \"250x250\" --square true --size 250"
+    }
+  }
+}
