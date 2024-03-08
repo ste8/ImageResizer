@@ -1,4 +1,4 @@
-﻿namespace ImageResizer
+﻿namespace ImageResizer.Services
 {
     public interface IOutputWriter
     {

@@ -1,4 +1,6 @@
 ﻿using CommandLine;
+using ImageResizer.Localization;
+using ImageResizer.Services;
 
 namespace ImageResizer
 {
@@ -10,7 +12,6 @@ namespace ImageResizer
             {
                 Parser.Default.ParseArguments<ResizeOptions>(args)
                     .WithParsed(options => {
-
                         var outputWriter = new OutputWriter();
 
                         if (!options.NormalizeAndValidate(outputWriter)) {

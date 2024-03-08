@@ -1,7 +1,8 @@
 ﻿using CommandLine;
 using ImageResizer.Helpers;
+using ImageResizer.Services;
 
-namespace ImageResizer
+namespace ImageResizer.Localization
 {
     public class ResizeOptions
     {
@@ -17,17 +18,19 @@ namespace ImageResizer
         [Option("square", Required = true, HelpText = "Required square (true/false)")]
         public bool RequiredSquare { get; set; }
 
-        public bool NormalizeAndValidate(IOutputWriter outputWriter)
+        public bool NormalizeAndValidate(OutputWriter outputWriter)
         {
             var dirPath = PathHelper.GetAbsolutePath(SourceDirPath);
-            if (!Directory.Exists(dirPath)) {
+            if (!Directory.Exists(dirPath))
+            {
                 outputWriter.WriteLine($"Source Directory does not exists: '{SourceDirPath}'");
                 return false;
             }
             SourceDirPath = dirPath;
 
             dirPath = PathHelper.GetAbsolutePath(DestDirPath);
-            if (!Directory.Exists(dirPath)) {
+            if (!Directory.Exists(dirPath))
+            {
                 outputWriter.WriteLine($"Destination Directory does not exists: '{DestDirPath}'");
                 return false;
             }
