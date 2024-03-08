@@ -21,10 +21,21 @@ namespace ImageResizer.Services
             foreach (var sourceImagePath in sourceImagesPath)
             {
                 var result = ResizeImage(sourceImagePath, options);
-                if (result.Result != ImageResizeResultType.Resized) {
+                if (ShouldWrite(result)) {
                     WriteOutputForImage(result.Message);
                 }
             }
+        }
+
+        private bool ShouldWrite(ImageResizeResult result)
+        {
+            switch (result.Result)
+            {
+                case ImageResizeResultType.Resized:
+                case ImageResizeResultType.SkippedExisting:
+                    return false;
+            }
+            return true;
         }
 
         private string[] GetSourceImagesPath(string sourceDirPath)
@@ -42,6 +53,10 @@ namespace ImageResizer.Services
             var imageFileName = Path.GetFileName(sourceImageFilePath);
             using var image = Image.Load(sourceImageFilePath);
 
+            if (options.SkipIfExists && DestAlreadyExists(imageFileName, options)) {
+                return new ImageResizeResult(ImageResizeResultType.SkippedExisting);
+            }
+
             var validationResult = ValidateResizeImage(image, imageFileName, options);
             if (validationResult != null) return validationResult;
 
@@ -49,6 +64,12 @@ namespace ImageResizer.Services
             ResizeToNewSize(image, newSize);
             SaveToDestPath(options, imageFileName, image);
             return new ImageResizeResult(ImageResizeResultType.Resized);
+        }
+
+        private static bool DestAlreadyExists(string imageFileName, ResizeOptions options)
+        {
+            var filePath = GetDestImageFilePath(imageFileName, options);
+            return File.Exists(filePath);
         }
 
         private static ImageResizeResult? ValidateResizeImage(Image image, string imageFileName, ResizeOptions options)
@@ -83,8 +104,14 @@ namespace ImageResizer.Services
 
         private static void SaveToDestPath(ResizeOptions options, string imageFileName, Image image)
         {
-            var destImageFilePath = Path.Combine(options.DestDirPath, imageFileName);
+            var destImageFilePath = GetDestImageFilePath(imageFileName, options);
             image.Save(destImageFilePath);
+        }
+
+        private static string GetDestImageFilePath(string imageFileName, ResizeOptions options)
+        {
+            var destImageFilePath = Path.Combine(options.DestDirPath, imageFileName);
+            return destImageFilePath;
         }
 
         private static void ResizeToNewSize(Image image, Size newSize)

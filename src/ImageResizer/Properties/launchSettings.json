@@ -2,7 +2,7 @@
   "profiles": {
     "ImageResizer": {
       "commandName": "Project",
-      "commandLineArgs": "--source \"Originali\" --dest \"250x250\" --square true --size 250"
+      "commandLineArgs": "--source \"Originali\" --dest \"250x250\" --square true --size 250 --skip true"
     }
   }
 }

@@ -18,6 +18,9 @@ namespace ImageResizer.Localization
         [Option("square", Required = true, HelpText = "Required square (true/false)")]
         public bool RequiredSquare { get; set; }
 
+        [Option("skip", Required = false, HelpText = "Skip existing (true/false)")]
+        public bool SkipIfExists { get; set; }
+
         public bool NormalizeAndValidate(OutputWriter outputWriter)
         {
             var dirPath = PathHelper.GetAbsolutePath(SourceDirPath);
