@@ -19,12 +19,19 @@ namespace ImageResizer
                             return;
                         }
 
-                        Console.WriteLine("------------------------------------------");
-                        Console.WriteLine($"Source: '{options.SourceDirPath}'");
-                        Console.WriteLine($"Dest: '{options.DestDirPath}'");
-                        Console.WriteLine($"Largest size: '{options.LargestSize}'");
-                        Console.WriteLine($"Required Square: '{options.RequiredSquare}'");
-                        Console.WriteLine("------------------------------------------");
+                        Console.WriteLine("**********************************");
+                        Console.WriteLine("*** Image Resizer v. 1.0.0");
+                        Console.WriteLine("**********************************");
+
+                        Console.WriteLine("");
+                        Console.WriteLine("----------------------------------");
+                        Console.WriteLine("INPUT");
+                        Console.WriteLine($"- Source: '{options.SourceDirPath}'");
+                        Console.WriteLine($"- Dest: '{options.DestDirPath}'");
+                        Console.WriteLine($"- Largest Size: '{options.LargestSize}'");
+                        Console.WriteLine($"- Required Square: '{options.RequiredSquare}'");
+                        Console.WriteLine($"- Skip if Exissts: '{options.SkipIfExists}'");
+                        Console.WriteLine("----------------------------------");
                         Console.WriteLine("");
 
                         Console.WriteLine(LocStrings.ResizingImages);
