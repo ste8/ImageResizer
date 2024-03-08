@@ -5,6 +5,11 @@
         public static string ResizingImages = "Resizing images...";
 
         public static string Done = "DONE!";
+        public static string Warning = "WARNING!!!";
+
+        public static string Resized = "Resized";
+        public static string SkippedExisting = "Skipped Existing";
+        public static string Invalid = "Invalid";
 
         public static string ImageIsSmallerThanRequiredSize(string imageFileName, int largestSize)
         {

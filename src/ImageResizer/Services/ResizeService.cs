@@ -15,15 +15,35 @@ namespace ImageResizer.Services
             _outputWriter = outputWriter;
         }
 
-        public void ResizeAll(ResizeOptions options)
+        public ResizeCounts ResizeAll(ResizeOptions options)
         {
+            var resizeCount = new ResizeCounts();
+
             var sourceImagesPath = GetSourceImagesPath(options.SourceDirPath);
             foreach (var sourceImagePath in sourceImagesPath)
             {
                 var result = ResizeImage(sourceImagePath, options);
+                UpdateCounts(result, resizeCount);
                 if (ShouldWrite(result)) {
                     WriteOutputForImage(result.Message);
                 }
+            }
+            return resizeCount;
+        }
+
+        private void UpdateCounts(ImageResizeResult result, ResizeCounts resizeCounts)
+        {
+            switch (result.Result)
+            {
+                case ImageResizeResultType.Resized:
+                    resizeCounts.Resized++;
+                    break;
+                case ImageResizeResultType.SkippedExisting:
+                    resizeCounts.SkippedExisting++;
+                    break;
+                default:
+                    resizeCounts.Invalid++;
+                    break;
             }
         }
 
@@ -150,5 +170,12 @@ namespace ImageResizer.Services
         NotSquare,
         SkippedExisting,
         SmallerThanRequiredSize
+    }
+
+    public class ResizeCounts
+    {
+        public int Resized { get; set; }
+        public int SkippedExisting { get; set; }
+        public int Invalid { get; set; }
     }
 }
