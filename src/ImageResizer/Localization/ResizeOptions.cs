@@ -21,6 +21,9 @@ namespace ImageResizer.Localization
         [Option("skip", Required = false, HelpText = "Skip existing (true/false)")]
         public bool SkipIfExists { get; set; }
 
+        [Option("suffix", Required = false, HelpText = "File name suffix (e.g. '_250x250')")]
+        public string? FileNameSuffix { get; set; }
+
         public bool NormalizeAndValidate(OutputWriter outputWriter)
         {
             var dirPath = PathHelper.GetAbsolutePath(SourceDirPath);

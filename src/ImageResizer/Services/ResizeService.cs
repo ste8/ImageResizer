@@ -130,8 +130,20 @@ namespace ImageResizer.Services
 
         private static string GetDestImageFilePath(string imageFileName, ResizeOptions options)
         {
+            imageFileName = AddSuffixToDestImageFileNameIfNeeded(imageFileName, options);
             var destImageFilePath = Path.Combine(options.DestDirPath, imageFileName);
             return destImageFilePath;
+        }
+
+        private static string AddSuffixToDestImageFileNameIfNeeded(string imageFileName, ResizeOptions options)
+        {
+            if (string.IsNullOrWhiteSpace(options.FileNameSuffix)) return imageFileName;
+
+            imageFileName = Path.GetFileNameWithoutExtension(imageFileName) 
+                            + options.FileNameSuffix 
+                            + Path.GetExtension(imageFileName);
+
+            return imageFileName;
         }
 
         private static void ResizeToNewSize(Image image, Size newSize)
