@@ -24,17 +24,15 @@ namespace ImageResizer.Localization
         public bool NormalizeAndValidate(OutputWriter outputWriter)
         {
             var dirPath = PathHelper.GetAbsolutePath(SourceDirPath);
-            if (!Directory.Exists(dirPath))
-            {
-                outputWriter.WriteLine($"Source Directory does not exists: '{SourceDirPath}'");
+            if (!Directory.Exists(dirPath)) {
+                outputWriter.WriteLine($"Source Directory does not exists: '{dirPath}'");
                 return false;
             }
             SourceDirPath = dirPath;
 
             dirPath = PathHelper.GetAbsolutePath(DestDirPath);
-            if (!Directory.Exists(dirPath))
-            {
-                outputWriter.WriteLine($"Destination Directory does not exists: '{DestDirPath}'");
+            if (!Directory.Exists(dirPath)) {
+                outputWriter.WriteLine($"Destination Directory does not exists: '{dirPath}'");
                 return false;
             }
             DestDirPath = dirPath;

@@ -29,12 +29,13 @@ namespace ImageResizer
         {
             var outputWriter = new OutputWriter();
 
-            if (!options.NormalizeAndValidate(outputWriter)) return;
-
             Console.WriteLine("**********************************");
             Console.WriteLine($"*** Image Resizer v.{Version.GetAssemblyVersion()}");
             Console.WriteLine("**********************************");
             Console.WriteLine("");
+
+            if (!options.NormalizeAndValidate(outputWriter)) return;
+           
             Console.WriteLine("----------------------------------");
             Console.WriteLine("INPUT");
             Console.WriteLine($"- Source: '{options.SourceDirPath}'");
