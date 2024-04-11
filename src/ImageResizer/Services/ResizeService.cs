@@ -60,7 +60,7 @@ namespace ImageResizer.Services
 
         private string[] GetSourceImagesPath(string sourceDirPath)
         {
-            var allowedExtensions = new[] { ".jpg", ".png" };
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
             var files = Directory
                 .GetFiles(sourceDirPath)
                 .Where(file => allowedExtensions.Any(file.ToLower().EndsWith))
